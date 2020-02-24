@@ -1,0 +1,71 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <!-- Metadata -->
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <!-- Title -->
+    <title>My Journal</title>
+    <!-- CDNS -->
+    <script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script>
+    <!-- Fonts -->
+    <link
+      href="https://fonts.googleapis.com/css?family=Muli:300,400,700&display=swap"
+      rel="stylesheet"
+    />
+    <!-- Styles -->
+    <style>
+      * {
+        font-family: "Muli";
+      }
+      body {
+        background-color: rgb(235, 235, 235);
+      }
+      .post-container {
+        background-color: white;
+        margin: 16px;
+        padding: 16px;
+
+        border: solid 1px rgb(199, 199, 199);
+        border-radius: 5px;
+      }
+    </style>
+    <!-- Scripts -->
+    <script>
+      const handleDeletePost = async e => {
+        const postId = e.target.id;
+        const url = "/post/" + postId;
+        try {
+          await axios.delete(url);
+          location.reload();
+        } catch (error) {
+          console.log(error.toString());
+          alert(error.toString());
+        }
+      };
+    </script>
+    <script
+      src="https://kit.fontawesome.com/f2f3e69293.js"
+      crossorigin="anonymous"
+    ></script>
+  </head>
+  <body>
+    <form class="post-container" action="/post" method="POST">
+      <div>Create a Post</div>
+      <input name="postTitle" type="text" placeholder="Post Title" />
+      <input name="postBody" type="text" placeholder="Post Body" />
+      <button type="submit">Post it!</button>
+    </form>
+    <div>
+      <% allPosts.forEach(post => { %>
+      <div class="post-container">
+        <div><%= post.title %></div>
+        <div><%= post.body %></div>
+        <button id="<%= post.id %>" onClick="handleDeletePost(event)">
+          Delete
+        </button>
+      </div>
+      <% }) %>
+    </div>
+  </body>
+</html>
